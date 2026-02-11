@@ -27,6 +27,12 @@
 
 ---
 
+## About this fork
+
+This repository is **forked from [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code)**. I use it as a base and add the things I use on top of it—custom rules, skills, agents, and configs tailored to my workflow. All credit for the original collection goes to the upstream project.
+
+---
+
 **The complete collection of Claude Code configs from an Anthropic hackathon winner.**
 
 Production-ready agents, skills, hooks, commands, rules, and MCP configurations evolved over 10+ months of intensive daily use building real products.
@@ -56,14 +62,14 @@ This repo is the raw code only. The guides explain everything.
 </tr>
 </table>
 
-| Topic | What You'll Learn |
-|-------|-------------------|
-| Token Optimization | Model selection, system prompt slimming, background processes |
-| Memory Persistence | Hooks that save/load context across sessions automatically |
-| Continuous Learning | Auto-extract patterns from sessions into reusable skills |
-| Verification Loops | Checkpoint vs continuous evals, grader types, pass@k metrics |
-| Parallelization | Git worktrees, cascade method, when to scale instances |
-| Subagent Orchestration | The context problem, iterative retrieval pattern |
+| Topic                  | What You'll Learn                                             |
+| ---------------------- | ------------------------------------------------------------- |
+| Token Optimization     | Model selection, system prompt slimming, background processes |
+| Memory Persistence     | Hooks that save/load context across sessions automatically    |
+| Continuous Learning    | Auto-extract patterns from sessions into reusable skills      |
+| Verification Loops     | Checkpoint vs continuous evals, grader types, pass@k metrics  |
+| Parallelization        | Git worktrees, cascade method, when to scale instances        |
+| Subagent Orchestration | The context problem, iterative retrieval pattern              |
 
 ---
 
@@ -342,6 +348,7 @@ For advanced features (10k+ commits, auto-PRs, team sharing):
 ```
 
 Both options create:
+
 - **SKILL.md files** - Ready-to-use skills for Claude Code
 - **Instinct collections** - For continuous-learning-v2
 - **Pattern extraction** - Learns from your commit history
@@ -394,6 +401,7 @@ See `skills/continuous-learning-v2/` for full documentation.
 This plugin requires Claude Code CLI v2.1.0+ due to changes in how the plugin system handles hooks.
 
 Check your version:
+
 ```bash
 claude --version
 ```
@@ -540,10 +548,12 @@ Hooks fire on tool events. Example - warn about console.log:
 ```json
 {
   "matcher": "tool == \"Edit\" && tool_input.file_path matches \"\\\\.(ts|tsx|js|jsx)$\"",
-  "hooks": [{
-    "type": "command",
-    "command": "#!/bin/bash\ngrep -n 'console\\.log' \"$file_path\" && echo '[Hook] Remove console.log' >&2"
-  }]
+  "hooks": [
+    {
+      "type": "command",
+      "command": "#!/bin/bash\ngrep -n 'console\\.log' \"$file_path\" && echo '[Hook] Remove console.log' >&2"
+    }
+  ]
 }
 ```
 
@@ -584,6 +594,7 @@ node tests/hooks/hooks.test.js
 **Contributions are welcome and encouraged.**
 
 This repo is meant to be a community resource. If you have:
+
 - Useful agents or skills
 - Clever hooks
 - Better MCP configurations
@@ -618,14 +629,14 @@ npm install ecc-universal
 
 ### What's Translated
 
-| Component | Claude Code → Cursor | Parity |
-|-----------|---------------------|--------|
-| Rules | YAML frontmatter added, paths flattened | Full |
-| Agents | Model IDs expanded, tools → readonly flag | Full |
-| Skills | No changes needed (identical standard) | Identical |
-| Commands | Path references updated, multi-* stubbed | Partial |
-| MCP Config | Env interpolation syntax updated | Full |
-| Hooks | No equivalent in Cursor | See alternatives |
+| Component  | Claude Code → Cursor                      | Parity           |
+| ---------- | ----------------------------------------- | ---------------- |
+| Rules      | YAML frontmatter added, paths flattened   | Full             |
+| Agents     | Model IDs expanded, tools → readonly flag | Full             |
+| Skills     | No changes needed (identical standard)    | Identical        |
+| Commands   | Path references updated, multi-\* stubbed | Partial          |
+| MCP Config | Env interpolation syntax updated          | Full             |
+| Hooks      | No equivalent in Cursor                   | See alternatives |
 
 See [.cursor/README.md](.cursor/README.md) for details and [.cursor/MIGRATION.md](.cursor/MIGRATION.md) for the full migration guide.
 
@@ -649,73 +660,76 @@ The configuration is automatically detected from `.opencode/opencode.json`.
 
 ### Feature Parity
 
-| Feature | Claude Code | OpenCode | Status |
-|---------|-------------|----------|--------|
-| Agents | ✅ 14 agents | ✅ 12 agents | **Claude Code leads** |
-| Commands | ✅ 30 commands | ✅ 24 commands | **Claude Code leads** |
-| Skills | ✅ 28 skills | ✅ 16 skills | **Claude Code leads** |
-| Hooks | ✅ 3 phases | ✅ 20+ events | **OpenCode has more!** |
-| Rules | ✅ 8 rules | ✅ 8 rules | **Full parity** |
-| MCP Servers | ✅ Full | ✅ Full | **Full parity** |
-| Custom Tools | ✅ Via hooks | ✅ Native support | **OpenCode is better** |
+| Feature      | Claude Code    | OpenCode          | Status                 |
+| ------------ | -------------- | ----------------- | ---------------------- |
+| Agents       | ✅ 14 agents   | ✅ 12 agents      | **Claude Code leads**  |
+| Commands     | ✅ 30 commands | ✅ 24 commands    | **Claude Code leads**  |
+| Skills       | ✅ 28 skills   | ✅ 16 skills      | **Claude Code leads**  |
+| Hooks        | ✅ 3 phases    | ✅ 20+ events     | **OpenCode has more!** |
+| Rules        | ✅ 8 rules     | ✅ 8 rules        | **Full parity**        |
+| MCP Servers  | ✅ Full        | ✅ Full           | **Full parity**        |
+| Custom Tools | ✅ Via hooks   | ✅ Native support | **OpenCode is better** |
 
 ### Hook Support via Plugins
 
 OpenCode's plugin system is MORE sophisticated than Claude Code with 20+ event types:
 
 | Claude Code Hook | OpenCode Plugin Event |
-|-----------------|----------------------|
-| PreToolUse | `tool.execute.before` |
-| PostToolUse | `tool.execute.after` |
-| Stop | `session.idle` |
-| SessionStart | `session.created` |
-| SessionEnd | `session.deleted` |
+| ---------------- | --------------------- |
+| PreToolUse       | `tool.execute.before` |
+| PostToolUse      | `tool.execute.after`  |
+| Stop             | `session.idle`        |
+| SessionStart     | `session.created`     |
+| SessionEnd       | `session.deleted`     |
 
 **Additional OpenCode events**: `file.edited`, `file.watcher.updated`, `message.updated`, `lsp.client.diagnostics`, `tui.toast.show`, and more.
 
 ### Available Commands (24)
 
-| Command | Description |
-|---------|-------------|
-| `/plan` | Create implementation plan |
-| `/tdd` | Enforce TDD workflow |
-| `/code-review` | Review code changes |
-| `/security` | Run security review |
-| `/build-fix` | Fix build errors |
-| `/e2e` | Generate E2E tests |
-| `/refactor-clean` | Remove dead code |
-| `/orchestrate` | Multi-agent workflow |
-| `/learn` | Extract patterns from session |
-| `/checkpoint` | Save verification state |
-| `/verify` | Run verification loop |
-| `/eval` | Evaluate against criteria |
-| `/update-docs` | Update documentation |
-| `/update-codemaps` | Update codemaps |
-| `/test-coverage` | Analyze coverage |
-| `/go-review` | Go code review |
-| `/go-test` | Go TDD workflow |
-| `/go-build` | Fix Go build errors |
-| `/skill-create` | Generate skills from git |
-| `/instinct-status` | View learned instincts |
-| `/instinct-import` | Import instincts |
-| `/instinct-export` | Export instincts |
-| `/evolve` | Cluster instincts into skills |
-| `/setup-pm` | Configure package manager |
+| Command            | Description                   |
+| ------------------ | ----------------------------- |
+| `/plan`            | Create implementation plan    |
+| `/tdd`             | Enforce TDD workflow          |
+| `/code-review`     | Review code changes           |
+| `/security`        | Run security review           |
+| `/build-fix`       | Fix build errors              |
+| `/e2e`             | Generate E2E tests            |
+| `/refactor-clean`  | Remove dead code              |
+| `/orchestrate`     | Multi-agent workflow          |
+| `/learn`           | Extract patterns from session |
+| `/checkpoint`      | Save verification state       |
+| `/verify`          | Run verification loop         |
+| `/eval`            | Evaluate against criteria     |
+| `/update-docs`     | Update documentation          |
+| `/update-codemaps` | Update codemaps               |
+| `/test-coverage`   | Analyze coverage              |
+| `/go-review`       | Go code review                |
+| `/go-test`         | Go TDD workflow               |
+| `/go-build`        | Fix Go build errors           |
+| `/skill-create`    | Generate skills from git      |
+| `/instinct-status` | View learned instincts        |
+| `/instinct-import` | Import instincts              |
+| `/instinct-export` | Export instincts              |
+| `/evolve`          | Cluster instincts into skills |
+| `/setup-pm`        | Configure package manager     |
 
 ### Plugin Installation
 
 **Option 1: Use directly**
+
 ```bash
 cd everything-claude-code
 opencode
 ```
 
 **Option 2: Install as npm package**
+
 ```bash
 npm install ecc-universal
 ```
 
 Then add to your `opencode.json`:
+
 ```json
 {
   "plugin": ["ecc-universal"]
@@ -746,6 +760,7 @@ These configs are battle-tested across multiple production applications.
 **Critical:** Don't enable all MCPs at once. Your 200k context window can shrink to 70k with too many tools enabled.
 
 Rule of thumb:
+
 - Have 20-30 MCPs configured
 - Keep under 10 enabled per project
 - Under 80 tools active
@@ -755,6 +770,7 @@ Use `disabledMcpServers` in project config to disable unused ones.
 ### Customization
 
 These configs work for my workflow. You should:
+
 1. Start with what resonates
 2. Modify for your stack
 3. Remove what you don't use
